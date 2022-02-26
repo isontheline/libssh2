@@ -35,12 +35,12 @@ declare -a appleSiliconTargets=("simulator_arm64" "simulator_x86_64" "catalyst_x
 
 if [ -z "$build_targets" ]
 then
-  declare -a build_targets=("macos_x86_64" "macos_arm64" "catalyst_x86_64" "catalyst_arm64" "simulator_x86_64" "ios-arm64")
+  declare -a build_targets=("macos_x86_64" "macos_arm64" "catalyst_x86_64" "catalyst_arm64" "simulator_x86_64" "simulator_arm64" "ios-arm64")
 fi
 
 if [ -z "$link_targets" ]
 then
-  declare -a link_targets=("macos_x86_64" "macos_arm64" "catalyst_x86_64" "catalyst_arm64" "simulator_x86_64" "ios-arm64")
+  declare -a link_targets=("macos_x86_64" "macos_arm64" "catalyst_x86_64" "catalyst_arm64" "simulator_x86_64" "simulator_arm64" "ios-arm64")
 fi
 
 XCODE=`/usr/bin/xcode-select -p`
