@@ -35,12 +35,12 @@ declare -a appleSiliconTargets=("simulator_arm64" "simulator_x86_64" "catalyst_x
 
 if [ -z "$build_targets" ]
 then
-  declare -a build_targets=("macos_x86_64" "macos_arm64" "catalyst_x86_64" "catalyst_arm64" "simulator_x86_64" "ios-arm64")
+  declare -a build_targets=("macos_x86_64" "macos_arm64" "catalyst_x86_64" "catalyst_arm64" "simulator_x86_64" "simulator_arm64" "ios-arm64")
 fi
 
 if [ -z "$link_targets" ]
 then
-  declare -a link_targets=("macos_x86_64" "macos_arm64" "catalyst_x86_64" "catalyst_arm64" "simulator_x86_64" "ios-arm64")
+  declare -a link_targets=("macos_x86_64" "macos_arm64" "catalyst_x86_64" "catalyst_arm64" "simulator_x86_64" "simulator_arm64" "ios-arm64")
 fi
 
 XCODE=`/usr/bin/xcode-select -p`
@@ -218,7 +218,7 @@ if needsRebuilding "$target" && elementIn "$target" "${build_targets[@]}"; then
   LIBRESSLROOT=$(resolve_path ${LIBRESSLROOT_RELATIVE})
 
   ./configure --build=aarch64-apple-darwin --host=aarch64-apple-darwin22 --with-crypto=openssl --with-libssl-prefix=${LIBRESSLROOT} --prefix="$PREFIX/$target" --disable-debug --disable-dependency-tracking --disable-silent-rules --disable-examples-build --with-libz --disable-shared --enable-static \
-    CC="/usr/bin/clang" \
+    CC="/usr/bin/clang -target arm64-apple-ios${IOS}-simulator" \
     CPPFLAGS="-I$SDKROOT/usr/include/ -I${LIBRESSLROOT}/include" \
     CFLAGS="$CPPFLAGS -arch arm64 -miphoneos-version-min=${MIN_IOS_VERSION} -pipe -no-cpp-precomp -isysroot $SDKROOT" \
     CPP="/usr/bin/cpp $CPPFLAGS" \
@@ -226,7 +226,7 @@ if needsRebuilding "$target" && elementIn "$target" "${build_targets[@]}"; then
   
   make clean
   make -j 4 install \
-    CC="/usr/bin/clang" \
+    CC="/usr/bin/clang -target arm64-apple-ios${IOS}-simulator" \
     CPPFLAGS="-I$SDKROOT/usr/include/ -I${LIBRESSLROOT}/include" \
     CFLAGS="$CPPFLAGS -arch arm64 -miphoneos-version-min=${MIN_IOS_VERSION} -pipe -no-cpp-precomp -isysroot $SDKROOT" \
     CPP="/usr/bin/cpp $CPPFLAGS" \
